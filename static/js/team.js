@@ -7,12 +7,21 @@ function initTeam() {
 }
 
 function getTeamCompare() {
-  // get the value of team 1
-  // get the value of team 2
-  // get the value of season
-  // get the team compare stats for teams for a single season
+    // Get the input value for team and season
+  var team1 = document.getElementById("team1").value
+  var team2 = document.getElementById("team2").value
+  var season = document.getElementById("seasons").value
+   
+  // get the stats of team from season
+  d3.json("/teamStats/"+ team1 + "/" + season).then((team1Stats) => {
+  		d3.json("/teamStats/"+ team2 + "/" + season).then((team2Stats) => {
+	  	console.log("team1:", team1Stats)
+	  	console.log("team2:", team2Stats)	
+	  	// If either team stats are null output message of "Cannot compare lack of data"
+  		// else render chart of stats
+	  });
+  	});
   // render stats
-  console.log("get team compare");
 }
 // Initialize the dashboard
 initTeam();

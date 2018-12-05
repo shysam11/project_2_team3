@@ -5,11 +5,11 @@ function buildTeams(listId) {
   var selector = d3.select("#"+listId);
 
   d3.json("/teams").then((teamList) => {
-    teamList.team.forEach((team) => {
+    teamList.forEach((team) => {
       selector
       .append("option")
-      .text(team)
-      .property("value", team);
+      .text(team.name)
+      .property("value", team.name);
     });
   });
 }
@@ -20,11 +20,11 @@ function buildSeasons(listId) {
   var selector = d3.select("#"+listId);
 
   d3.json("/seasons").then((seasonsList) => {
-    seasonsList.season.forEach((season) => {
+    seasonsList.forEach((item) => {
       selector
       .append("option")
-      .text(season)
-      .property("value", season);
+      .text(item.season)
+      .property("value", item.season);
     });
   });
 }

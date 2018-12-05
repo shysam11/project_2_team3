@@ -6,12 +6,17 @@ function initIndex() {
 }
 
 function getTeamStats() {
-  // event.preventDefault();
-  // get the value of the team
-  // get the value of season
+  // Get the input value for team and season
+  var team = document.getElementById("teams").value
+  var season = document.getElementById("seasons").value
+   
   // get the stats of team from season
+  d3.json("/teamStats/"+ team + "/" + season).then((teamStats) => {
+  	console.log(teamStats)
+  	// If the team stats is null output message of "No Data for Season"
+  	// else render chart of stats
+  });
   // render stats
-  console.log("get team stats");
 }
 // Initialize the dashboard
 initIndex();

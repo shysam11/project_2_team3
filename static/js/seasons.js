@@ -1,18 +1,25 @@
 function initSeasons() {
   console.log('seasons');
  // Grab a reference to the dropdown select element
- buildTeams("teams");
+ buildTeams("team");
  buildSeasons("season1");
  buildSeasons("season2"); 
 }
 
 function getSeasonCompare() {
-  // get the value of team 
-  // get the value of season 1
-  // get the value of season 2
-  // get the team compare stats for teams for a single season
-  // render stats
-  console.log("get season compare");
+  var team = document.getElementById("team").value
+  var season1 = document.getElementById("season1").value
+  var season2 = document.getElementById("season2").value
+   
+  // get the stats of team from season
+  d3.json("/teamStats/"+ team + "/" + season1).then((season1Stats) => {
+  		d3.json("/teamStats/"+ team + "/" + season2).then((season2Stats) => {
+	  	console.log("season1:", season1Stats)
+	  	console.log("season2:", season2Stats)	
+	  	// If the either season is null output message of "unable to compare seasons"
+  		// else render chart of stats
+	  });
+  	});
 }
 // Initialize the dashboard
 initSeasons();
