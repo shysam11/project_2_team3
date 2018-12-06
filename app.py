@@ -1,7 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, func
 # PyMySQL 
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -9,27 +6,17 @@ pymysql.install_as_MySQLdb()
 from flask import Flask, jsonify, render_template
 
 #################################################
-# Database Setup
-#################################################
-engine = create_engine("mysql://root:Roscoe1963@localhost/nhl_db")
-
-# reflect an existing database into a new model
-Base = automap_base()
-
-# reflect the tables
-Base.prepare(engine, reflect=True)
-
-# Save reference to the table
-NHLYear = Base.classes.nhl_year
-
-# Create our session (link) from Python to the DB
-session = Session(engine)
-
-#################################################
 # Flask Setup
 #################################################
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Roscoe1963@localhost/nhl'
+db = SQLAlchemy(app)
+
+db.reflect()
+
+class NHLYear(db.Model):
+	__tablename__ = 'view_nhl_year'
 
 #################################################
 # Flask Routes
@@ -53,7 +40,7 @@ def seasonCompare():
 @app.route("/teams")
 def teams():
 	# Return a list of team names for drop down display.
-	teamList = session.query(NHLYear.teamName).distinct().order_by("teamName")
+	teamList = db.session.query(NHLYear.teamName).distinct().order_by("teamName")
 
 	# Create a dictionary from the row data and append to a list of display teams    
 	# initialize the team dictionary and increment variable
@@ -76,7 +63,7 @@ def teams():
 def seasons():
 	
 	# Return a list of team names for drop down display.
-	seasonsList = session.query(NHLYear.Season_Start, NHLYear.Season_End).distinct().order_by("Season_Start")
+	seasonsList = db.session.query(NHLYear.Season_start, NHLYear.Season_end).distinct().order_by("Season_start")
 
 	# Create a dictionary from the row data and append to a list of display teams    
 	# initialize the team dictionary and increment variable
@@ -89,7 +76,7 @@ def seasons():
 	for season in seasonsList:
 		temp_season = {}
 		temp_season["id"] = i
-		temp_season["season"] = season.Season_Start + "-" + season.Season_End
+		temp_season["season"] = season.Season_start + "-" + season.Season_end
 		seasons_dict.append(temp_season)
 		i +=1
 
@@ -102,17 +89,21 @@ def teamStats(team, season):
 	seasons = season.split("-")
 	# 
 	sel=[
-	NHLYear.id,
+	NHLYear.ID,
 	NHLYear.Rk,
 	NHLYear.teamName,
+	NHLYear.AvAge,
 	NHLYear.GP,
 	NHLYear.W,
 	NHLYear.L,
 	NHLYear.T,
+	NHLYear.OL,
 	NHLYear.PTS,
 	NHLYear.PTSpct,
 	NHLYear.GF,
 	NHLYear.GA,
+	NHLYear.SOW,
+	NHLYear.SOL,
 	NHLYear.SRS,
 	NHLYear.SOS,
 	NHLYear.TG_G,
@@ -131,51 +122,53 @@ def teamStats(team, season):
 	NHLYear.S,
 	NHLYear.Spct,
 	NHLYear.SA,
-	NHLYear.SVpct,
+	NHLYear.SVpcT,
 	NHLYear.PDO,
-	NHLYear.Season_Start,
-	NHLYear.Season_End]
+	NHLYear.Season_start,
+	NHLYear.Season_end]
 
-	seasonsList = session.query(*sel).filter(NHLYear.teamName == team).filter(NHLYear.Season_Start == seasons[0]).all()
+	seasonsList = db.session.query(*sel).filter(NHLYear.teamName == team).filter(NHLYear.Season_start == seasons[0]).all()
 
 	# Create a dictionary from the row data and append to a list of display teams    
 	# initialize the team dictionary and increment variable
 
 	teamStats = {}	
 	for result in seasonsList:
-		teamStats["id"]=result[0]
+		teamStats["ID"]=result[0]
 		teamStats["Rk"]=result[1]
 		teamStats["teamName"]=result[2]
-		teamStats["GP"]=result[3]
-		teamStats["W"]=result[4]
-		teamStats["L"]=result[5]
-		teamStats["T"]=result[6]
-		teamStats["PTS"]=result[7]
-		teamStats["PTSpct"]=result[8]
-		teamStats["GF"]=result[9]
-		teamStats["GA"]=result[10]
-		teamStats["SRS"]=result[11]
-		teamStats["SOS"]=result[12]
-		teamStats["TG_G"]=result[13]
-		teamStats["EVGF"]=result[14]
-		teamStats["EVGA"]=result[15]
-		teamStats["PP"]=result[16]
-		teamStats["PPO"]=result[17]
-		teamStats["PPpct"]=result[18]
-		teamStats["PPA"]=result[19]
-		teamStats["PPOA"]=result[20]
-		teamStats["PKpct"]=result[21]
-		teamStats["SH"]=result[22]
-		teamStats["SHA"]=result[23]
-		teamStats["PIM_G"]=result[24]
-		teamStats["oPIM_G"]=result[25]
-		teamStats["S"]=result[26]
-		teamStats["Spct"]=result[27]
-		teamStats["SA"]=result[28]
-		teamStats["SVpct"]=result[29]
-		teamStats["PDO"]=result[30]
-		teamStats["Season_Start"]=result[31]
-		teamStats["Season_End"]=result[32]
+		teamStats["AvAge"]=result[3]
+		teamStats["GP"]=result[4]
+		teamStats["W"]=result[5]
+		teamStats["L"]=result[6]
+		teamStats["T"]=result[7]
+		teamStats["OL"]=result[8]
+		teamStats["PTS"]=result[9]
+		teamStats["PTSpct"]=result[10]
+		teamStats["GF"]=result[11]
+		teamStats["GA"]=result[12]
+		teamStats["SRS"]=result[13]
+		teamStats["SOS"]=result[14]
+		teamStats["TG_G"]=result[15]
+		teamStats["EVGF"]=result[16]
+		teamStats["EVGA"]=result[17]
+		teamStats["PP"]=result[18]
+		teamStats["PPO"]=result[19]
+		teamStats["PPpct"]=result[20]
+		teamStats["PPA"]=result[21]
+		teamStats["PPOA"]=result[22]
+		teamStats["PKpct"]=result[23]
+		teamStats["SH"]=result[24]
+		teamStats["SHA"]=result[25]
+		teamStats["PIM_G"]=result[26]
+		teamStats["oPIM_G"]=result[27]
+		teamStats["S"]=result[28]
+		teamStats["Spct"]=result[29]
+		teamStats["SA"]=result[30]
+		teamStats["SVpcT"]=result[31]
+		teamStats["PDO"]=result[32]
+		teamStats["Season_start"]=result[33]
+		teamStats["Season_end"]=result[34]
 
 	return jsonify(teamStats)
 
