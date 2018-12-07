@@ -16,8 +16,6 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css">
    <style type="text/css">.jumbotron{background-image:url("{{ url_for('static', filename='Images/hockey11.jpg') }}"); background-size:cover; background-repeat:no-repeat; background-position:bottom center;}
       .text-black * {color:black !important;}
-      canvas + canvas {margin-top:40px;}
-      .team_logo { width: 200px; height: auto; }
     </style>
 
     <!--     <link rel="stylesheet" type="text/css" href="./styles.css"> -->
@@ -55,7 +53,7 @@
       <h3>Use the interactive charts below to see the stats!</h3>  
     </div>
     <div class="row margin-top-50">
-      <div class="col-md-3 col-sm-12">
+      <div class="col-md-2">
         <aside class="filters">
           <div class="panel panel-default">
             <div class="panel-heading">Search Filters</div>
@@ -74,19 +72,18 @@
           </div>
         </aside>
       </div>
-        <div class="col-md-9 col-sm-12">
+      <div class="row">
+        <div class="col-md-10" id="bodyContent">
           <!-- insert team data on page -->
-           <div id="bodyContent"></div>
-        </div>
+         </div>
       </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   </body>
 
   </html>

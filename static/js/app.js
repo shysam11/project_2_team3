@@ -29,6 +29,12 @@ function buildSeasons(listId) {
   });
 }
 
+function getTeamImage(location, team_name) {
+  console.log('GetImage for:', team_name);
+    var name = location + team_name.split(" ").join("_")+".png"
+    return name    
+ }
+
 function init() {
   console.log('init');
  // Grab a reference to the dropdown select element
