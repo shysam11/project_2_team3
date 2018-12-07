@@ -21,5 +21,5 @@ function getSeasonCompare() {
 	  });
   	});
 }
-// Initialize the dashboard
+// Initialize the dashboard - update code
 initSeasons();

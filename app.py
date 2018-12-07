@@ -80,6 +80,7 @@ def seasons():
 		seasons_dict.append(temp_season)
 		i +=1
 
+	# jsonify the returned information
 	return jsonify(seasons_dict)
 
 @app.route("/teamStats/<team>/<season>")

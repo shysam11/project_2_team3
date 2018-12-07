@@ -127,5 +127,5 @@ function drawHorzBar(chartData, containerID, chartID){
     }
 });
 }
-// Initialize the dashboard
+// Initialize the dashboard - update code
 initIndex();

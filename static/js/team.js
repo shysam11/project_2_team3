@@ -23,5 +23,5 @@ function getTeamCompare() {
   	});
   // render stats
 }
-// Initialize the dashboard
+// Initialize the dashboard - update code
 initTeam();
