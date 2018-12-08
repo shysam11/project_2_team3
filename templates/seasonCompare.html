@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css">
 
    <!--  <link rel="stylesheet" type="text/css" href="./styles.css">
-    
+
  -->    <style type="text/css">.jumbotron{background-image:url("{{ url_for('static', filename='Images/Hockey13.jpg') }}"); background-size:cover; background-repeat:no-repeat; background-position:bottom center;}
       .text-black * {color:black !important;}
     </style>
@@ -70,26 +70,29 @@
                 <select class="form-control" id="season2"></select>
 
               </div>
-              <button id="filter-btn" type="button" onclick="getSeasonCompare()" class="btn btn-default">Get Data</button> 
+              <button id="filter-btn" type="button" onclick="getSeasonCompare()" class="btn btn-default">Get Data</button>
             </form>
           </div>
         </div>
       </aside>
     </div>
-    <div class="row">
+    <!--<div class="row"> -->
       <div class="col-md-10">
         <!-- insert team data on page -->
+        <div id="bodyContent"></div>
       </div>
     </div>
   </div>
 
-  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
+  <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   <script src="{{ url_for('static', filename='js/seasons.js') }}"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 </body>
 
 </html>
