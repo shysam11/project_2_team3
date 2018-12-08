@@ -1,3 +1,4 @@
+import os
 from flask_sqlalchemy import SQLAlchemy
 # PyMySQL 
 import pymysql
@@ -10,7 +11,7 @@ from flask import Flask, jsonify, render_template
 #################################################
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Roscoe1963@localhost/nhl'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'mysql://root:Roscoe1963@localhost/nhl'
 db = SQLAlchemy(app)
 
 db.reflect()
